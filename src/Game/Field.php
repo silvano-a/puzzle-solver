@@ -1,5 +1,6 @@
 <?php
-require_once 'GameState.php';
+
+namespace app\Game;
 
 final class Field
 {

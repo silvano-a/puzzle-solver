@@ -1,4 +1,5 @@
 <?php
+namespace app\Game;
 
 final class GameState
 {

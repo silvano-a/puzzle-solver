@@ -1,11 +1,13 @@
 <?php
 
 
+use app\Game\Field;
+use app\Game\GameState;
+use app\Game\Queue;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-require_once __DIR__.'/Resources/Field.php';
-require_once __DIR__.'/Resources/Queue.php';
+use app\Game;
 
 final class SlidingBlockCommand extends Command
 {
