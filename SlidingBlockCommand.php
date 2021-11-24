@@ -3,7 +3,8 @@
 
 use app\Game\Field;
 use app\Game\GameState;
-use app\Game\Queue;
+use app\Game\GameConfig;
+use app\Solver\Solver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,35 +17,25 @@ final class SlidingBlockCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $initMap = Field::getField();
-        $queue = new Queue();
+        $game = new GameConfig();
+        $solver = new Solver();
 
-        $gamestate = new GameState();
-        $gamestate->add($initMap);
-        $queue->add($gamestate);
+        $start = microtime(true);
+        $solution = $solver->solve($game);
+        $duration =  microtime(true) - $start;
 
-        while ($queue->isEmpty() === false) {
-            Field::calculateNextMoves($queue);
+        if($solution instanceof GameState) {
+            $solution->animate();
+
+            $output->writeln(
+                sprintf('Puzzle solved succesfully after %s iterations, and %s moves, in %s seconds',
+                    $solver->getIterations(),
+                    count($solution->getHistory()),
+                    $duration
+                )
+            );
         }
 
-        $output->writeln('DONE');
-
-        if($queue->winner !== null) {
-            $output->writeln('Puzzel solved in ' . $queue->getIterations() . ' iterations');
-
-            /** @var GameState $winner */
-            $winner = $queue->winner;
-
-            foreach($winner->getHistory() as $item) {
-                $queue->print($item);
-                usleep(200000);
-            }
-
-            $output->writeln('Amount of moves needed to reach destination: '. count($winner->getHistory()));
-            $output->writeln('Number of iterations:' . $queue->getIterations());
-        } else {
-            $output->writeln('Puzzel not solvable');
-        }
 
         return Command::SUCCESS;
     }

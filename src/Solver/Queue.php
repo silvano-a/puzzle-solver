@@ -1,6 +1,9 @@
 <?php
 
-namespace app\Game;
+namespace app\Solver;
+
+use app\Game\GameConfig;
+use app\Game\GameState;
 
 final class Queue
 {
@@ -12,22 +15,16 @@ final class Queue
 
     private $iterations = -1;
 
-    public function print(array $field)
+    /**
+     * @var GameConfig
+     */
+    private $gameConfig;
+
+    public function __construct(GameConfig $gameConfig)
     {
-        echo chr(27).chr(91).'H'.chr(27).chr(91).'J';   //^[H^[J
-        echo '-------------------' . PHP_EOL;
-
-        foreach($field as $row )
-        {
-            foreach($row as $column) {
-                echo $column. ' ';
-            }
-
-            echo PHP_EOL;
-        }
-        echo '-------------------' . PHP_EOL;
-
+        $this->gameConfig = $gameConfig;
     }
+
     /**
      * @return int
      */
@@ -79,7 +76,7 @@ final class Queue
     {
         $state = $gameState->getCurrent();
 
-        if($state[1][0] === 'f' && $state[1][4] === 'c' && $state[2][2] === 'a' && $state[0][2] === 'e') {
+        if($this->gameConfig->isSolution($state)) {
             return true;
         }
 

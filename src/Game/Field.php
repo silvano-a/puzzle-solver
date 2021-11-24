@@ -4,133 +4,72 @@ namespace app\Game;
 
 final class Field
 {
-    public static function getField(): array
-    {
-        return
-            [
-                ['w', 'w', 'a', 'w', 'w'],
-                ['c', '.', '.', '.', 'f'],
-                ['w', 'w', 'e', 'w', 'w'],
-            ];
-    }
+    /**
+     * @var array
+     */
+    private $field;
 
-    public static function getGrid(): array
+    /**
+     * @var array
+     */
+    private $grid;
+
+
+    /**
+     * @param array $field
+     */
+    public function setField(array $field)
     {
-        return [
-            'y' => 3,
-            'x'=> 5
+        $this->field = $field;
+        $this->grid = [
+            'x' => count($field[0]),
+            'y' => count($field),
         ];
     }
 
-    private static function getCars()
+    /**
+     * @return array
+     */
+    public function getField(): array
     {
-        return ['a','c','d','e','f','g'];
+        return $this->field;
     }
 
-    private static function addMove(Queue $queue, GameState $gameState, string $car, string $mode, array $currentLocation) {
-
-        $state = $gameState->getCurrent();
-
-        if($mode === 'MOVE_RIGHT') {
-            $newLocation = $currentLocation[1] +1;
-
-            if($state[$currentLocation[0]][$newLocation] != '.') {
-
-                return;
-            }
-
-
-            $state[$currentLocation[0]][$currentLocation[1]] = '.';
-            $state[$currentLocation[0]][$newLocation] = $car;
-        }
-        
-        if($mode === 'MOVE_LEFT') {
-            $newLocation = $currentLocation[1] -1;
-
-            if($state[$currentLocation[0]][$newLocation] != '.') {
-                return;
-            }
-
-            $state[$currentLocation[0]][$currentLocation[1]] = '.';
-            $state[$currentLocation[0]][$newLocation] = $car;
-        }
-
-        if($mode === 'MOVE_DOWN') {
-            $newLocation = $currentLocation[0] +1;
-
-            if($state[$newLocation][$currentLocation[1]] != '.') {
-                return;
-            }
-            $state[$currentLocation[0]][$currentLocation[1]] = '.';
-            $state[$newLocation][$currentLocation[1]] = $car;
-        }
-
-        if($mode === 'MOVE_UP') {
-            $newLocation = $currentLocation[0] -1;
-
-            if($state[$newLocation][$currentLocation[1]] != '.') {
-                return;
-            }
-            $state[$currentLocation[0]][$currentLocation[1]] = '.';
-            $state[$newLocation][$currentLocation[1]] = $car;
-        }
-
-        if($queue->isNotSeen($state)) {
-            $newState = clone $gameState;
-            
-            $newState->add($state);
-            $queue->add($newState);
-        }
-    }
-
-
-    public static function calculateNextMoves(Queue $queue)
+    /**
+     * @return array
+     */
+    public function getGrid(): array
     {
-        $objectItem = $queue->getFirst();
-        $item = $objectItem->getCurrent();
-
-        foreach($item as $rowNumber => $row) {
-            foreach(self::getCars() as $car) {
-                if(array_search($car, $row) !== false) {
-                    $location = array_search($car, $row);
-
-                    if(self::notOutOfBoundsX($location +1)) {
-                        self::addMove($queue, $objectItem, $car, 'MOVE_RIGHT', [$rowNumber, $location]);
-                    }
-
-                    if(self::notOutOfBoundsX($location -1)) {
-                        self::addMove($queue, $objectItem, $car, 'MOVE_LEFT', [$rowNumber, $location]);
-                    }
-
-                    if(self::notOutOfBoundsY($rowNumber +1)) {
-                        self::addMove($queue, $objectItem, $car, 'MOVE_DOWN', [$rowNumber, $location]);
-                    }
-
-                    if(self::notOutOfBoundsY($rowNumber -1)) {
-                        self::addMove($queue, $objectItem, $car, 'MOVE_UP', [$rowNumber,$location]);
-                    }
-                }
-            }
-        }
-
-        $queue->removeFirst();
-
-        return [];
+        return $this->grid;
     }
 
-    private static function notOutOfBoundsx($number) {
-        if($number < 0 ) {
-            return false;
-        }
+    /**
+     * @return Field
+     */
+    public static function create(): self
+    {
+        $field = new self();
+        $field->setField(
+            self::get10x10()
+        );
 
-        return $number < self::getGrid()['x'];
+        return $field;
     }
 
-    private static function notOutOfBoundsY($number) {
-        if($number < 0 ) {
-            return false;
-        }
-        return $number < self::getGrid()['y'];
-    }
 
+    private static function get10x10(): array
+    {
+        return [
+            ['a', 'X', '.', 'X', 'X', 'X', '.', '.', '.', '.'],
+            ['.', 'X', '.', 'X', '.', 'X', '.', 'X', 'X', '.'],
+            ['.', '.', '.', 'X', '.', 'X', '.', 'X', '.', '.'],
+            ['.', 'X', 'X', 'X', '.', 'X', '.', 'X', '.', 'X'],
+            ['.', 'X', '.', '.', '.', 'X', '.', 'X', '.', '.'],
+            ['.', '.', '.', 'X', '.', 'X', '.', 'X', 'X', '.', '🏁'],
+            ['.', 'X', 'X', 'X', '.', 'X', '.', 'X', '.', 'X'],
+            ['.', 'X', '.', 'X', '.', 'X', '.', 'X', '.', 'X'],
+            ['.', 'X', '.', 'X', '.', 'X', '.', 'X', '.', 'X'],
+            ['.', '.', '.', 'X', '.', '.', '.', '.', '.', 'X'],
+        ];
+    }
 }
