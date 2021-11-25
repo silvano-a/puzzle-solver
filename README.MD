@@ -3,7 +3,7 @@
 ### Currently supported puzzles: ###
 - Maze
 
-### Feature supported puzzles: ### 
+### Future / planned supported puzzles: ### 
 - rush hour / car park
 - sliding puzzle 
 - sliding block puzzle
