@@ -14,7 +14,6 @@ final class Field
      */
     private $grid;
 
-
     /**
      * @param array $field
      */
@@ -55,7 +54,6 @@ final class Field
 
         return $field;
     }
-
 
     private static function get10x10(): array
     {

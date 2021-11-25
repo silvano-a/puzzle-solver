@@ -27,7 +27,7 @@ final class Solver
         $initGameState->add($gameConfig->getField());
 
         // Add the first gamestate to the queue
-        $this->queue->add($initGameState);
+        $this->queue->initialize($initGameState);
 
         return $this->searchBreadthFirst();
     }
@@ -90,7 +90,6 @@ final class Solver
             if($state[$currentLocation[0]][$newLocation] != '.') {
                 return;
             }
-
 
             $state[$currentLocation[0]][$currentLocation[1]] = '.';
             $state[$currentLocation[0]][$newLocation] = $car;

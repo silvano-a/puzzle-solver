@@ -50,4 +50,9 @@ final class GameConfig
 
         return false;
     }
+
+    public function getSolutionAsString()
+    {
+        return 'y=5, x=9';
+    }
 }
