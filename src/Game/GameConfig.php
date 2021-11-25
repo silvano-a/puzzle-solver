@@ -26,7 +26,7 @@ final class GameConfig
         return ['a','c','d','e','f','g'];
     }
 
-    public function notOutOfBoundsx($number) {
+    public function notOutOfBoundsx($number): bool {
         if($number < 0 ) {
             return false;
         }
@@ -34,14 +34,14 @@ final class GameConfig
         return $number < $this->field->getGrid()['x'];
     }
 
-    public function notOutOfBoundsY($number) {
+    public function notOutOfBoundsY($number): bool {
         if($number < 0 ) {
             return false;
         }
         return $number < $this->field->getGrid()['y'];
     }
 
-    public function isSolution(array $field)
+    public function isSolution(array $field): bool
     {
         if($field[5][9] == 'a')
         {
@@ -51,7 +51,7 @@ final class GameConfig
         return false;
     }
 
-    public function getSolutionAsString()
+    public function getSolutionAsString(): string
     {
         return 'y=5, x=9';
     }
