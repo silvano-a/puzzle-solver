@@ -43,7 +43,7 @@ final class GameConfig
 
     public function isSolution(array $field): bool
     {
-        if($field[5][9] == 'a')
+        if($field[1][9] == 'a')
         {
             return true;
         }
@@ -53,6 +53,6 @@ final class GameConfig
 
     public function getSolutionAsString(): string
     {
-        return 'y=5, x=9';
+        return 'y=0, x=9';
     }
 }

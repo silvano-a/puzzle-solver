@@ -49,7 +49,7 @@ final class Field
     {
         $field = new self();
         $field->setField(
-            self::get10x10()
+            self::get10x1()
         );
 
         return $field;
@@ -68,6 +68,22 @@ final class Field
             ['.', 'X', '.', 'X', '.', 'X', '.', 'X', '.', 'X'],
             ['.', 'X', '.', 'X', '.', 'X', '.', 'X', '.', 'X'],
             ['.', '.', '.', 'X', '.', '.', '.', '.', '.', 'X'],
+        ];
+    }
+
+    private static function get10x3(): array
+    {
+        return [
+            ['a', 'X', '.', '.', '.', 'X', '.', '.', '.', '.'],
+            ['.', 'X', '.', 'X', '.', 'X', '.', 'X', 'X', '.', '🏁'],
+            ['.', '.', '.', 'X', '.', '.', '.', '.', '.', 'X'],
+        ];
+    }
+
+    private static function get10x1(): array
+    {
+        return [
+            ['.', '.', 'a', '.', '.', '.', '.', '.', '.', '.'],
         ];
     }
 }
